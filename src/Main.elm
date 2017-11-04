@@ -1,13 +1,12 @@
 module Main exposing (..)
 
 import Html exposing (Html, div, input, label, text)
-import Html.App as App
 import Html.Events exposing (onInput)
 
 
-main : Program Never
+main : Program Never Model Msg
 main =
-    App.beginnerProgram
+    Html.beginnerProgram
         { model = model
         , view = view
         , update = update
