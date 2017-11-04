@@ -1,43 +1,55 @@
-import Html exposing (Html, input, label, div, text)
+module Main exposing (..)
+
+import Html exposing (Html, div, input, label, text)
 import Html.App as App
 import Html.Events exposing (onInput)
 
 
 main : Program Never
 main =
-  App.beginnerProgram
-    { model = model
-    , view = view
-    , update = update
-    }
+    App.beginnerProgram
+        { model = model
+        , view = view
+        , update = update
+        }
+
 
 
 -- MODEL
 
-type alias Model = String
+
+type alias Model =
+    String
+
 
 model : Model
 model =
-  "Hello World"
+    "Hello World"
+
 
 
 -- UPDATE
 
-type Msg = UpdateName String
+
+type Msg
+    = UpdateName String
+
 
 update : Msg -> Model -> Model
 update msg model =
-  case msg of
-    UpdateName name ->
-      "Hello " ++ name
+    case msg of
+        UpdateName name ->
+            "Hello " ++ name
+
 
 
 -- VIEW
 
+
 view : Model -> Html Msg
 view model =
-  div []
-    [ label [] [ text "Your Name: " ]
-    , input [ onInput UpdateName ] []
-    , div [] [ text model ]
-    ]
+    div []
+        [ label [] [ text "Your Name: " ]
+        , input [ onInput UpdateName ] []
+        , div [] [ text model ]
+        ]
