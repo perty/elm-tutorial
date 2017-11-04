@@ -2,3 +2,5 @@
 elm-stuff
 *.log
 app.js
+.idea/
+elm-tutorial.iml
