@@ -6,16 +6,15 @@ import Html.Events exposing (Options, onWithOptions)
 import Json.Decode as Json
 import Navigation
 import String
-import UrlParser exposing ((</>), Parser, format, int, oneOf, s, string)
+import UrlParser exposing ((</>), Parser, int, oneOf, s, string)
 
 
-main : Program Never
+main : Program Never State Msg
 main =
     Navigation.program urlParser
         { init = init
         , view = view
         , update = update
-        , urlUpdate = urlUpdate
         , subscriptions = subscriptions
         }
 
@@ -35,9 +34,9 @@ initialState route =
     }
 
 
-init : Route -> ( State, Cmd Msg )
+init : Navigation.Location -> ( State, Cmd Msg )
 init route =
-    ( initialState route, Cmd.none )
+    ( initialState HomeRoute, Cmd.none )
 
 
 
@@ -58,7 +57,7 @@ type Route
 
 -- PARSING
 
-
+{-
 parse : Navigation.Location -> Route
 parse { pathname } =
     let
@@ -79,6 +78,16 @@ parse { pathname } =
 urlParser : Navigation.Parser Route
 urlParser =
     Navigation.makeParser parse
+    -}
+
+urlParser : Navigation.Location -> Msg
+urlParser location =
+    case UrlParser.parsePath routeParser location of
+        Nothing ->
+            FollowRoute NotFound
+        Just route ->
+            FollowRoute route
+
 
 
 postsParser : Parser a a
@@ -99,12 +108,12 @@ homeParser =
         ]
 
 
-routeParser : Parser (Route -> a) a
+routeParser : UrlParser.Parser (Route -> a) a
 routeParser =
     oneOf
-        [ format PostsRoute postsParser
-        , format PostRoute postParser
-        , format HomeRoute homeParser
+        [ UrlParser.map PostsRoute postsParser
+        , UrlParser.map PostRoute postParser
+        , UrlParser.map HomeRoute homeParser
         ]
 
 
@@ -120,6 +129,7 @@ type Msg
     = ShowHome
     | ShowPosts
     | ShowPost PostId
+    | FollowRoute Route
 
 
 update : Msg -> State -> ( State, Cmd Msg )
@@ -133,6 +143,9 @@ update msg state =
 
         ShowPost postId ->
             ( state, Navigation.newUrl ("/post/" ++ toString postId) )
+
+        FollowRoute route ->
+            ( { route = route }, Cmd.none)
 
 
 urlUpdate : Route -> State -> ( State, Cmd Msg )
