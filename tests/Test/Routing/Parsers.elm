@@ -1,22 +1,24 @@
 module Test.Routing.Parsers exposing (tests)
 
-import ElmTest exposing (Test, assertEqual, assertNotEqual, suite, test)
+import Expect exposing (..)
+import Messages
 import Navigation
-import Routing.Parsers exposing (parse)
+import Routing.Parsers exposing (urlParser)
 import Routing.Routes exposing (..)
+import Test exposing (Test, describe, test)
 
 
 tests : Test
 tests =
-    suite "Routing.Parsers.parse"
+    describe "Routing.Parsers.parse"
         [ test "HomeRoute should match index.html" <|
-            assertEqual (parse indexLocation) HomeRoute
+            \_ -> Expect.equal (urlParser indexLocation) (Messages.FollowRoute HomeRoute)
         , test "HomeRoute should match empty path" <|
-            assertEqual (parse rootLocation) HomeRoute
+            \_ -> Expect.equal (urlParser rootLocation) (Messages.FollowRoute HomeRoute)
         , test "PostRoute should match /post/89" <|
-            assertEqual (parse postLocation) (PostRoute 89)
+            \_ -> Expect.equal (urlParser postLocation) (Messages.FollowRoute (PostRoute 89))
         , test "PostRoute should not match wrong PostId" <|
-            assertNotEqual (parse postLocation) (PostRoute 102)
+            \_ -> Expect.notEqual (urlParser postLocation) (Messages.FollowRoute (PostRoute 102))
         ]
 
 

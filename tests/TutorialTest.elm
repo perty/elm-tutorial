@@ -1,19 +1,20 @@
 module Main exposing (..)
 
-import ElmTest exposing (Test, suite)
+import Test exposing (Test, describe)
 import Test.Routing.Parsers as ParserTest
 import Test.Routing.Routes as RoutesTest
+import Test.Runner.Html
 
 
-main : Program Never
+main : Test.Runner.Html.TestProgram
 main =
-    ElmTest.runSuite allTests
+    allTests
+        |> Test.Runner.Html.run
 
 
 allTests : Test
 allTests =
-    suite
-        "All Tests"
+    describe "All Tests"
         [ ParserTest.tests
         , RoutesTest.tests
         ]

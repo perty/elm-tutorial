@@ -1,16 +1,17 @@
 module Test.Routing.Routes exposing (tests)
 
-import ElmTest exposing (Test, assertEqual, suite, test)
+import Expect
 import Routing.Routes exposing (..)
+import Test exposing (Test, describe, test)
 
 
 tests : Test
 tests =
-    suite "Routing.Routes.reverse"
+    describe "Routing.Routes.reverse"
         [ test "HomeRoute should reverse to '/'" <|
-            assertEqual "/" (reverse HomeRoute)
+            \_ -> Expect.equal "/" (reverse HomeRoute)
         , test "NotFound should reverse to '/'" <|
-            assertEqual "/" (reverse NotFound)
+            \_ -> Expect.equal "/" (reverse NotFound)
         , test "PostRoute 89 should reverse to '/post/89'" <|
-            assertEqual "/post/89" (reverse (PostRoute 89))
+            \_ -> Expect.equal "/post/89" (reverse (PostRoute 89))
         ]
