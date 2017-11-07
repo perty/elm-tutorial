@@ -1,29 +1,26 @@
 module Update exposing (..)
 
-
-import Navigation
-import Models exposing (State)
 import Messages exposing (Msg(..))
+import Models exposing (State)
+import Navigation
 import Routing.Parsers exposing (urlParser)
-import Routing.Routes exposing (..)
-import Routing.Routes as Routing
+import Routing.Routes as Routing exposing (..)
 
 
-update : Msg -> State -> (State, Cmd Msg)
+update : Msg -> State -> ( State, Cmd Msg )
 update msg state =
-  case msg of
-    ShowHome ->
-      (state, Navigation.newUrl (Routing.reverse HomeRoute))
+    case msg of
+        ShowHome ->
+            ( state, Navigation.newUrl (Routing.reverse HomeRoute) )
 
-    ShowPost postId ->
-      let
-        postPath =
-          Routing.reverse (PostRoute postId)
+        ShowPost postId ->
+            let
+                postPath =
+                    Routing.reverse (PostRoute postId)
+            in
+            ( state, Navigation.newUrl postPath )
 
-      in
-        (state, Navigation.newUrl postPath)
 
-
-urlUpdate : Route -> State -> (State, Cmd Msg)
+urlUpdate : Route -> State -> ( State, Cmd Msg )
 urlUpdate route state =
-  ({ state | route = route }, Cmd.none)
+    ( { state | route = route }, Cmd.none )

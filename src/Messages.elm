@@ -2,9 +2,9 @@ module Messages exposing (..)
 
 
 type alias PostId =
-  Int
+    Int
 
 
 type Msg
-  = ShowHome
-  | ShowPost PostId
+    = ShowHome
+    | ShowPost PostId

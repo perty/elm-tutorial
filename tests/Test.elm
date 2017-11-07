@@ -1,7 +1,8 @@
+module Main exposing (..)
+
+import ElmTest exposing (Test, suite)
 import Test.Routing.Parsers as ParserTest
 import Test.Routing.Routes as RoutesTest
-import ElmTest exposing (Test, suite)
-import ElmTest
 
 
 main : Program Never
@@ -11,8 +12,8 @@ main =
 
 allTests : Test
 allTests =
-  suite
-    "All Tests"
-    [ ParserTest.tests
-    , RoutesTest.tests
-    ]
+    suite
+        "All Tests"
+        [ ParserTest.tests
+        , RoutesTest.tests
+        ]
