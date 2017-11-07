@@ -1,6 +1,6 @@
 module Main exposing (..)
 
-import Html exposing (Attribute, Html, a, div, header, text)
+import Html exposing (Attribute, Html, a, div, header, li, text, ul)
 import Html.Attributes exposing (class, href)
 import Html.Events exposing (Options, onWithOptions)
 import Json.Decode as Json
@@ -57,37 +57,15 @@ type Route
 
 -- PARSING
 
-{-
-parse : Navigation.Location -> Route
-parse { pathname } =
-    let
-        path =
-            if String.startsWith "/" pathname then
-                String.dropLeft 1 pathname
-            else
-                pathname
-    in
-    case UrlParser.parse identity routeParser path of
-        Err err ->
-            NotFound
-
-        Ok route ->
-            route
-
-
-urlParser : Navigation.Parser Route
-urlParser =
-    Navigation.makeParser parse
-    -}
 
 urlParser : Navigation.Location -> Msg
 urlParser location =
     case UrlParser.parsePath routeParser location of
         Nothing ->
             FollowRoute NotFound
+
         Just route ->
             FollowRoute route
-
 
 
 postsParser : Parser a a
@@ -145,7 +123,7 @@ update msg state =
             ( state, Navigation.newUrl ("/post/" ++ toString postId) )
 
         FollowRoute route ->
-            ( { route = route }, Cmd.none)
+            ( { route = route }, Cmd.none )
 
 
 urlUpdate : Route -> State -> ( State, Cmd Msg )
@@ -177,7 +155,10 @@ bodyContent state =
             div [] [ text "Home Page" ]
 
         PostsRoute ->
-            div [] [ text "Posts List" ]
+            div []
+                [ div [] [ text "Posts List" ]
+                , postEntries
+                ]
 
         PostRoute postId ->
             div [] [ text ("Post Detail " ++ toString postId) ]
@@ -194,6 +175,19 @@ viewHeader =
         [ a (linkAttrs ShowHome "/") [ text "Home" ]
         , a (linkAttrs ShowPosts "/posts") [ text "Posts" ]
         ]
+
+
+postEntries : Html Msg
+postEntries =
+    ul []
+        [ postEntry 13 "Some post 13"
+        , postEntry 42 "Some other post 42"
+        ]
+
+
+postEntry : Int -> String -> Html Msg
+postEntry id title =
+    li [] [ a [ onClick (ShowPost id) ] [ text title ] ]
 
 
 linkAttrs : Msg -> String -> List (Attribute Msg)
