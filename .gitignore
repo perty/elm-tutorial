@@ -4,5 +4,4 @@ node_modules
 *.log
 app.js
 tests/test.js
-.idea/
-elm-tutorial.iml
+
