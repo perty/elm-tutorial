@@ -12,7 +12,7 @@
   "scripts": {
     "clean-build": "rm -rf elm-stuff; elm package install -y; elm make ./src/Main.elm --output=app.js;",
     "build": "elm make ./src/Main.elm --output=app.js;",
-    "test": "cd tests; elm package install -y; elm make ./Test.elm --output=test.js; node -r ./mock-document ./test.js; cd ..;"
+    "test": "cd tests; elm package install -y; elm make ./TutorialTest.elm --output=test.js; node -r ./mock-document ./test.js; cd ..;"
   },
   "repository": {
     "type": "git",

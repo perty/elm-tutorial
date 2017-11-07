@@ -9,20 +9,19 @@ import Update exposing (..)
 import View exposing (view)
 
 
-main : Program Never
+main : Program Never State Msg
 main =
     Navigation.program urlParser
         { init = init
         , view = view
         , update = update
-        , urlUpdate = urlUpdate
         , subscriptions = subscriptions
         }
 
 
-init : Route -> ( State, Cmd Msg )
+init : Navigation.Location -> ( State, Cmd Msg )
 init route =
-    ( newState route, Cmd.none )
+    ( newState Routing.Routes.HomeRoute, Cmd.none )
 
 
 

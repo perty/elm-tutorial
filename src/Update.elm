@@ -20,6 +20,9 @@ update msg state =
             in
             ( state, Navigation.newUrl postPath )
 
+        FollowRoute route ->
+            ( { route = route }, Cmd.none )
+
 
 urlUpdate : Route -> State -> ( State, Cmd Msg )
 urlUpdate route state =
