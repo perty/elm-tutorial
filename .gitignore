@@ -3,5 +3,4 @@ elm-stuff
 node_modules
 *.log
 app.js
-.idea/
-elm-tutorial.iml
+
