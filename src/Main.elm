@@ -35,8 +35,17 @@ initialState route =
 
 
 init : Navigation.Location -> ( State, Cmd Msg )
-init route =
-    ( initialState HomeRoute, Cmd.none )
+init location =
+    let
+        route =
+            case UrlParser.parsePath routeParser location of
+                Nothing ->
+                    HomeRoute
+
+                Just route ->
+                    route
+    in
+    ( initialState route, Cmd.none )
 
 
 
